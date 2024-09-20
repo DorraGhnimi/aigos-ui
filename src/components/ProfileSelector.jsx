@@ -3,8 +3,8 @@ import {HeartCrack, Heart} from 'lucide-react'
 const ProfileSelector = () => {
     return (
     <div className="w-full rounded-lg shadow-lg overflow-hidden bg-white ">
-        <div className="relative ">
-            <img src="http://localhost:8080/images/69e96be7-17cb-4fec-92ce-7484b5025a6f.jpg"/>
+        <div className="relative">
+            <img src="http://localhost:8080/images/69e96be7-17cb-4fec-92ce-7484b5025a6f.jpg" className='w-full'/>
             <div className="absolute bottom-0 left-0 right-0 text-white p-4 bg-gradient-to-t from-black">
                 <h2 className="text-3xl font-bold ">floki rag ivar</h2>
             </div>

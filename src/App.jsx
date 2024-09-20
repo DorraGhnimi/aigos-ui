@@ -24,7 +24,7 @@ const [currentView, setCurrentView] = useState('ProfileSelector');
         <ProfileSelector/>
       }
       {currentView == "MatchesList" &&
-        <MatchesList/>
+        <MatchesList setCurrentView={setCurrentView}/>
       }
       {currentView == "Chat" &&
         <Chat firstName={"Itachi"} lastname={"Ushiha"}/>
