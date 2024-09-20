@@ -2,6 +2,7 @@ import './App.css'
 import {User, MessageCircle} from 'lucide-react'
 import ProfileSelector from './components/ProfileSelector';
 import MatchesList from './components/MatchesList';
+import Chat from './components/Chat';
 import { useState } from 'react';
 
 function App() {
@@ -24,6 +25,9 @@ const [currentView, setCurrentView] = useState('ProfileSelector');
       }
       {currentView == "MatchesList" &&
         <MatchesList/>
+      }
+      {currentView == "Chat" &&
+        <Chat firstName={"Itachi"} lastname={"Ushiha"}/>
       }
     </div>
   )
