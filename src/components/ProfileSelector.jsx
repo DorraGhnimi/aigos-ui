@@ -1,25 +1,31 @@
 import {HeartCrack, Heart} from 'lucide-react'
 import { useEffect, useState } from 'react';
-import {fetchRandomProfile , PROFILE_API_BASE_URL} from '../services/ProfileService';
+import {fetchRandomProfile , PROFILE_IMAGES_URL} from '../services/ProfileService';
+import {createNewMatch } from '../services/MatchesService';
 
 const ProfileSelector = () => {
 
     const [profile, setProfile] = useState({});
 
-    const loadProfile = async() => {
+    const loadRandomProfile = async() => {
         const randomProfile = await fetchRandomProfile();
         setProfile(randomProfile);
         console.log(randomProfile);
     };
 
+    const handleNewMatch = async () => {
+        await createNewMatch(profile.id);
+        loadRandomProfile();
+        // TODO: instead or reloading, redirect to chat with new match
+    }
     useEffect(() => { 
-        loadProfile();
+        loadRandomProfile();
     }, []);
 
     return (
         <div className="w-full rounded-lg shadow-lg overflow-hidden bg-white ">
             <div className="relative">
-                <img src={PROFILE_API_BASE_URL + "/images/" + profile.imageUrl} className='w-full'/>
+                <img src={PROFILE_IMAGES_URL + profile.imageUrl} className='w-full'/>
                 <div className="absolute bottom-0 left-0 right-0 text-white p-4 bg-gradient-to-t from-black">
                     <h2 className="text-3xl font-bold ">{profile.firstname} {profile.lastName},  {profile.age} {profile.mtbi}</h2>
                 </div>
@@ -29,12 +35,12 @@ const ProfileSelector = () => {
                 </div>
             <div className="p-4 flex justify-between">
                 <button className='bg-red-600 rounded-full p-4 hover:bg-red-700 text-white'
-                    onClick={()=> console.log('left')}
+                    onClick={()=> loadRandomProfile()}
                 >
                     <HeartCrack size={40}/>
                 </button>
                 <button  className='bg-green-600 rounded-full p-4 hover:bg-green-700 text-white'
-                    onClick={()=> console.log('right')}
+                    onClick={()=> handleNewMatch()}
                 >
                     <Heart size={40}/>
                 </button>
