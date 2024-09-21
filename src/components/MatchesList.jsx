@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import {getAllMatches} from '../services/MatchesService'
-import { PROFILE_IMAGES_URL} from '../services/ProfileService';
+import {PROFILE_IMAGES_URL} from '../services/ProfileService';
 
-
-const MatchesList = ({setCurrentView}) => {
+const MatchesList = ({openChat}) => {
 
     const [matches, setMatches] = useState([]);
 
@@ -25,12 +24,12 @@ const MatchesList = ({setCurrentView}) => {
                     matches.map(match => (
                         <li key={match.id} className="mb-3">
                             <button 
-                            onClick={() => setCurrentView("Chat")}
+                            onClick={() => openChat(match.conversationId)}
                             className='flex w-full hover:bg-gray-100 rounded-lg items-center'
                             >
                                 <img src={PROFILE_IMAGES_URL + match.profile.imageUrl} className="w-20 h-20 rounded-full mr-3" />
                                 <span>
-                                    <h3>{match.profile.firstname} {match.profile.lastName}</h3>
+                                    <h3>{match.profile.firstname} {match.profile.lastname}</h3>
                                 </span>
                             </button>
                         </li>

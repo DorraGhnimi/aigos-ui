@@ -10,7 +10,6 @@ const ProfileSelector = () => {
     const loadRandomProfile = async() => {
         const randomProfile = await fetchRandomProfile();
         setProfile(randomProfile);
-        console.log(randomProfile);
     };
 
     const handleNewMatch = async () => {
@@ -23,11 +22,12 @@ const ProfileSelector = () => {
     }, []);
 
     return (
-        <div className="w-full rounded-lg shadow-lg overflow-hidden bg-white ">
+        profile ? (
+            <div className="w-full rounded-lg shadow-lg overflow-hidden bg-white ">
             <div className="relative">
                 <img src={PROFILE_IMAGES_URL + profile.imageUrl} className='w-full'/>
                 <div className="absolute bottom-0 left-0 right-0 text-white p-4 bg-gradient-to-t from-black">
-                    <h2 className="text-3xl font-bold ">{profile.firstname} {profile.lastName},  {profile.age} {profile.mtbi}</h2>
+                    <h2 className="text-3xl font-bold ">{profile.firstname} {profile.lastname},  {profile.age} {profile.mtbi}</h2>
                 </div>
             </div>
             <div className="p-4">
@@ -46,6 +46,7 @@ const ProfileSelector = () => {
                 </button>
             </div>
         </div>
+        ) : (<div> Loading ...</div>)
     )
 }
 

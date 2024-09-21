@@ -1,11 +1,8 @@
-import {PROFILE_API_BASE_URL} from './ProfileService';
-
-
-const MATCHES = "/matches";
+const MATCHES_URL = "http://localhost:8080/matches";
 
 export async function getAllMatches() {
     try{
-        const matchesResponse = await fetch(PROFILE_API_BASE_URL + MATCHES);
+        const matchesResponse = await fetch(MATCHES_URL);
         return matchesResponse.json();
     } catch(error) {
         console.error("Error while fetching matches list:" + error);
@@ -14,7 +11,7 @@ export async function getAllMatches() {
 
 export async function createNewMatch(profileId) {
     try{
-        const response  = await fetch(PROFILE_API_BASE_URL + MATCHES,{
+        const response  = await fetch(MATCHES_URL,{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -25,8 +22,6 @@ export async function createNewMatch(profileId) {
         if (!response.ok) {
             throw new Error('Failed to save swipe');
           }
-        console.log(JSON.stringify(response));
-        console.log(response);
     } catch(error) {
         console.error("Error while fetching matches list:" + error);
     }

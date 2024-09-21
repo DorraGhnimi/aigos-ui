@@ -7,7 +7,15 @@ import { useState } from 'react';
 
 function App() {
 
-const [currentView, setCurrentView] = useState('ProfileSelector');
+  const [currentView, setCurrentView] = useState('ProfileSelector');
+  const [conversationId, setConversationId] = useState(null);
+
+  const openChat= (conversationId) => {
+    setConversationId(conversationId);
+    setCurrentView("Chat");
+    console.log("conversationId=");
+    console.log(conversationId);
+  }
 
   return (
     <div className='max-w-screen-md mx-auto p-9' >
@@ -24,10 +32,10 @@ const [currentView, setCurrentView] = useState('ProfileSelector');
         <ProfileSelector/>
       }
       {currentView == "MatchesList" &&
-        <MatchesList setCurrentView={setCurrentView}/>
+        <MatchesList openChat={openChat}/>
       }
       {currentView == "Chat" &&
-        <Chat firstName={"Itachi"} lastname={"Ushiha"}/>
+        <Chat conversationId={conversationId}/>
       }
     </div>
   )

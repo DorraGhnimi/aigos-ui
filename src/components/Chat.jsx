@@ -1,36 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import {fetchConversation, addMessageToConvo} from '../services/ConversationService'
 
-const Chat = ({firstName, lastname}) => {
+const Chat = ({conversationId}) => {
 
-    const [message,setMessage] = useState("");
+    const [newMessage,setNewMessage] = useState("");
+    const [conversation, setConversation] = useState(null);
 
     const onChangeMessage = (e) => {
-        setMessage(e.target.value);
+        setNewMessage(e.target.value);
     }
 
-    const sendMessage = (e) => {
-        if(message.trim()) {
-            console.log(message);
-            setMessage("");
+    const sendMessage = async (e) => {
+        if(newMessage.trim()) {
+            console.log(newMessage);
+            await addMessageToConvo(conversation.id, newMessage, 'user');
+            setNewMessage("");
+            loadConversation(conversation.id);
         }
     }
 
+    const loadConversation = async (conversationId) => {
+        const conversationResponse = await fetchConversation(conversationId);
+        setConversation(conversationResponse);
+    }
+
+    useEffect(() => {
+        loadConversation(conversationId);
+    }, [conversationId]);
+
     return (
-        <div className='w-full rounded-lg shadow-lg p-4'>
-            <h2 className="text-2xl font-bold mb-4">Chat with {firstName} {lastname}</h2>       
+        conversation ? (
+            <div className='w-full rounded-lg shadow-lg p-4'>
+            <h2 className="text-2xl font-bold mb-4">Chat with {conversation.profileId}</h2>       
             <div className="h-[75vh] border rounded overflow-y-auto mb-4 p-2  shadow-lg">
                 {
-                    [
-                        "Hi",
-                        "how are you",
-                        "good, you?",
-                        "not bad",
-                        "cool",
-                        "nice"
-                    ].map((msg, index) => (
+                    conversation.messages.map((msg, index) => (
                         <div key={index}>
-                            <div className="mb-4 p-2 bg-gray-100 rounded shadow-md">{msg}</div>
+                            <div className="mb-4 p-2 bg-gray-100 rounded shadow-md">{msg.messageText}</div>
                         </div>
                     ))
                 }
@@ -38,7 +45,7 @@ const Chat = ({firstName, lastname}) => {
              <div className="flex">
                 <input type="text"
                     placeholder="type something ..."
-                    value={message}
+                    value={newMessage}
                     className="border rounded w-full shadow-lg p-3"
                     name="messageInput" onChange={(e)=> onChangeMessage(e)} 
                 />
@@ -48,6 +55,7 @@ const Chat = ({firstName, lastname}) => {
                  > <p className="bold">Send</p></button>
             </div>
         </div>
+        ) : (<div> Loading ...</div>)
     )
 }
 
