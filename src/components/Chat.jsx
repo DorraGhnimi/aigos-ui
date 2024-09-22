@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchConversation, addMessageToConvo } from '../services/ConversationService';
 import { User } from 'lucide-react';
 import {PROFILE_IMAGES_URL} from '../services/ProfileService';
 
-const Chat = ({conversationId, match}) => {
+const Chat = ({match, openProfile}) => {
 
     const [newMessage,setNewMessage] = useState("");
     const [conversation, setConversation] = useState(null);
@@ -41,11 +40,21 @@ const Chat = ({conversationId, match}) => {
                         <div key={index} className={`flex ${msg.authorId === 'user' ? 'justify-end' : 'justify-start'}`}>
                             <div className={`flex items-end ${msg.authorId === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                                 {msg.authorId === 'user' ?
-                                    (<User  className="w-11 h-11  bg-sky-300 rounded-full m-1 p-2"/>) :
-                                    (<img
+                                    (<button 
+                                        onClick={() => openProfile(true)}>
+                                            <User  className="w-11 h-11  bg-sky-300 rounded-full m-1 p-2"/>
+                                    </button>)
+                                :
+                                    (<button 
+                                        onClick={() => openProfile(false)}>
+                                            <img
                                         src={`${PROFILE_IMAGES_URL}${match.profile.imageUrl}`}
                                         className="w-11 h-11 rounded-full m-1"
-                                    />)}
+                                        
+                                    />
+                                    </button>
+                                    )
+                                }
                                 <div
                                     className={`max-w-xs px-4 py-2 rounded-2xl ${
                                         msg.authorId === 'user'

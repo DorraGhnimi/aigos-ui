@@ -1,6 +1,7 @@
 import './App.css'
 import {User, MessageCircle} from 'lucide-react'
 import ProfileSelector from './components/ProfileSelector';
+import Profile from './components/Profile';
 import MatchesList from './components/MatchesList';
 import Chat from './components/Chat';
 import { useState } from 'react';
@@ -8,15 +9,17 @@ import { useState } from 'react';
 function App() {
 
   const [currentView, setCurrentView] = useState('ProfileSelector');
-  const [conversationId, setConversationId] = useState(null);
   const [match, setMatch] = useState(null);
+  const [isUserProfile, setIsUserProfile] = useState(false);
 
   const openChat= (match) => {
-    setConversationId(match.conversationId);
     setCurrentView("Chat");
     setMatch(match);
-    console.log("conversationId=");
-    console.log(match.conversationId);
+  }
+
+  const openProfile = (isUser) => {
+    setCurrentView("Profile");
+    setIsUserProfile(isUser);
   }
 
   return (
@@ -36,7 +39,10 @@ function App() {
         <MatchesList openChat={openChat}/>
       }
       {currentView == "Chat" &&
-        <Chat conversationId={conversationId} match={match}/>
+        <Chat match={match} openProfile={openProfile}/>
+      }
+      {currentView == "Profile" &&
+        <Profile match={match} openChat={openChat} isUserProfile={isUserProfile}/>
       }
     </div>
   )
