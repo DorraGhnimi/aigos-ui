@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { fetchConversation, addMessageToConvo } from '../services/ConversationService';
-import { User } from 'lucide-react';
+import { User, LoaderCircle} from 'lucide-react';
 import {PROFILE_IMAGES_URL} from '../services/ProfileService';
 
 const Chat = ({match, openProfile}) => {
 
     const [newMessage,setNewMessage] = useState("");
     const [conversation, setConversation] = useState(null);
+    const [isLoadingFlag, setIsLoading] = useState(false);
 
     const onChangeMessage = (e) => {
         setNewMessage(e.target.value);
     }
 
     const sendMessage = async (e) => {
+        setIsLoading(true);
         if(newMessage.trim()) {
-            console.log(newMessage);
             await addMessageToConvo(conversation.id, newMessage, 'user');
             setNewMessage("");
             loadConversation(conversation.id);
         }
+        setIsLoading(false);
     }
 
     const loadConversation = async (conversationId) => {
@@ -42,7 +44,7 @@ const Chat = ({match, openProfile}) => {
                                 {msg.authorId === 'user' ?
                                     (<button 
                                         onClick={() => openProfile(true)}>
-                                            <User  className="w-11 h-11  bg-sky-300 rounded-full m-1 p-2"/>
+                                            <User  className="w-11 h-11  bg-blue-400 rounded-full m-1 p-2"/>
                                     </button>)
                                 :
                                     (<button 
@@ -58,7 +60,7 @@ const Chat = ({match, openProfile}) => {
                                 <div
                                     className={`max-w-xs px-4 py-2 rounded-2xl ${
                                         msg.authorId === 'user'
-                                        ? 'bg-blue-500 text-white'
+                                        ? 'bg-blue-400 text-white'
                                         : 'bg-gray-200 text-gray-800'
                                     }  m-1`}
                                 >
@@ -73,13 +75,20 @@ const Chat = ({match, openProfile}) => {
                 <input type="text"
                     placeholder="type something ..."
                     value={newMessage}
-                    className="border rounded w-full shadow-lg p-3"
+                    disabled={isLoadingFlag === true ? true : false}
+                    className={`border rounded w-full shadow-lg p-3 disabled:opacity-30`}
                     name="messageInput" onChange={(e)=> onChangeMessage(e)} 
                 />
                 <button
-                    className="bg-blue-500 rounded px-5 py-3 mx-4  shadow-lg"
+                    className={` w-36 rounded px-2  mx-4 flex justify-center shadow-lg ${isLoadingFlag ?  'disabled bg-gray-400' : 'hover:bg-blue-500 bg-blue-400' }`}
                     onClick={(e) => sendMessage(e)}
-                 > <p className="bold">Send</p></button>
+                 > {isLoadingFlag ? 
+                    < div  class="self-center">
+                        <svg class="animate-spin h-8"  viewBox="0 0 24 24"><LoaderCircle/></svg>
+                  </div>:
+                    <p className="bold text-xl self-center ">Send</p>
+                    }
+                 </button>
             </div>
         </div>
         ) : (<div> Loading ...</div>)

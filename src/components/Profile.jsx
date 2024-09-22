@@ -26,8 +26,8 @@ const Profile = ({match, openChat, isUserProfile}) => {
                 <img src={PROFILE_IMAGES_URL + profile.imageUrl} className='w-full'/>
                 <div className="absolute bottom-0 left-0 right-0 text-white p-4 bg-gradient-to-t from-black">
                     <h2 className="text-3xl font-bold ">{profile.firstname} {profile.lastname}</h2>
-                    <h4 className="text-3xl font-bold ">{profile.age} {profile.mtbi}</h4>
-                    <h4 className="text-3xl font-bold ">{profile.profession} {profile.religion}</h4>
+                    <h4 className="text-3xl font-bold ">{profile.age} - {profile.mtbi}</h4>
+                    <h4 className="text-3xl font-bold ">{profile.ethnicity} - {profile.profession} - {profile.religion}</h4>
                 </div>
             </div>
             <div className="p-4">
