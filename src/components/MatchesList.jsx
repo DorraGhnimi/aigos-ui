@@ -24,7 +24,7 @@ const MatchesList = ({openChat}) => {
                     matches.map(match => (
                         <li key={match.id} className="mb-3">
                             <button 
-                            onClick={() => openChat(match.conversationId)}
+                            onClick={() => openChat(match)}
                             className='flex w-full hover:bg-gray-100 rounded-lg items-center'
                             >
                                 <img src={PROFILE_IMAGES_URL + match.profile.imageUrl} className="w-20 h-20 rounded-full mr-3" />

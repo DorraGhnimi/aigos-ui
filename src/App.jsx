@@ -9,23 +9,24 @@ function App() {
 
   const [currentView, setCurrentView] = useState('ProfileSelector');
   const [conversationId, setConversationId] = useState(null);
+  const [match, setMatch] = useState(null);
 
-  const openChat= (conversationId) => {
-    setConversationId(conversationId);
+  const openChat= (match) => {
+    setConversationId(match.conversationId);
     setCurrentView("Chat");
+    setMatch(match);
     console.log("conversationId=");
-    console.log(conversationId);
+    console.log(match.conversationId);
   }
 
   return (
-    <div className='max-w-screen-md mx-auto p-9' >
-      <nav className='flex justify-between mb-4'>
+    <div className='max-w-screen-md mx-auto p-5' >
+      <nav className='flex justify-between'>
         <div className="p-4 flex justify-center space-x-4">
-          
-        <User onClick={()=>setCurrentView("ProfileSelector")}/>
+          <User  size={35}  onClick={()=>setCurrentView("ProfileSelector")}/>
         </div>
        <div  className="p-4 flex justify-center space-x-4">
-       <MessageCircle  onClick={()=>setCurrentView("MatchesList")}/>
+          <MessageCircle size={35} onClick={()=>setCurrentView("MatchesList")}/>
        </div>
       </nav>
       {currentView == "ProfileSelector" &&
@@ -35,7 +36,7 @@ function App() {
         <MatchesList openChat={openChat}/>
       }
       {currentView == "Chat" &&
-        <Chat conversationId={conversationId}/>
+        <Chat conversationId={conversationId} match={match}/>
       }
     </div>
   )
